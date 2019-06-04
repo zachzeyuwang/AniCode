@@ -1,0 +1,57 @@
+<html>
+
+<head>
+	<title>AniCode - authored QR code</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="static/github-markdown.css">
+	<style>
+		.markdown-body {
+			box-sizing: border-box;
+			min-width: 200px;
+			max-width: 980px;
+			margin: 0 auto;
+			padding: 45px;
+		}
+
+		@media (max-width: 767px) {
+			.markdown-body {
+				padding: 15px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<article class="markdown-body">
+		<h2>Please print your authored QR code</h2>
+		<p>Note that you should print it using the same scale as the reference QR code. Cut it out along the black border
+			and overlay it on the reference QR code.</p>
+		<p>Here is the <a href="http://tracer.cs.yale.edu:2018/get_userdata?file=dst_video.avi"
+				download="AniCode_video.avi">preview of your authored animation</a>. Use our <a
+				href="static/client_application.apk">mobile application</a> (Android) for a network-free personalized visual
+			communication with others.</p>
+		<canvas id="qr_canvas" width="400" height="400"
+			style="display: block; margin: auto; border: 1px solid black;"></canvas>
+		<p onclick="document.getElementById('advanced').style.display = 'block'"
+			style="color: #888888; text-decoration: underline; cursor: pointer">Advanced</p>
+		<div id="advanced" style="display: none">
+			<p>If you understand our animation schemes, and would like to modify the encoded information after you finish
+				using the authoring interface, you can modify the text below and submit it again.</p>
+			<form action="finish" method="post" style="text-align: center">
+				<textarea id="authored_qr" name="authored_qr" cols="100" rows="10">{{ authored_qr }}</textarea></br>
+				<input type="submit" id="submit">
+			</form>
+		</div>
+	</article>
+	<script type="text/javascript" src="./static/qrcodegen.js"></script>
+	<script type="text/javascript">
+		let version = 13; // this.value
+		let text = document.getElementById("authored_qr").value;
+		let segs = qrcodegen.QrSegment.makeSegments(text);
+		let qrcode = qrcodegen.QrCode.encodeSegments(segs, qrcodegen.QrCode.Ecc.LOW, version, version);
+		let canvas = document.getElementById("qr_canvas");
+		qrcode.drawCanvas(11, 0, canvas);
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,400 @@
+<!doctype html>
+
+<style>
+  html,
+  body {
+    font-family: "Lato", sans-serif;
+    font-size: 16px;
+    overflow: hidden;
+  }
+
+  #bgcanvas {
+    border: 1px solid black;
+    position: absolute;
+    left: 60px;
+    top: 40px;
+    z-index: 0;
+  }
+
+  #top {
+    position: absolute;
+    left: 60px;
+    top: 40px;
+    z-index: 1;
+  }
+
+  #qrcanvas {
+    border: 1px solid black;
+    width: 450px;
+    height: 450px;
+    display: none;
+  }
+
+  #ref_canvas {
+    border: 1px solid black;
+    width: 450px;
+    height: 450px;
+  }
+
+  .label {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .button_bottom {
+    background-color: #196619;
+    border: none;
+    color: white;
+    width: 190px;
+    padding: 6px 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 3px;
+    cursor: pointer;
+  }
+
+  .button_top {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    width: 190px;
+    padding: 6px 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 3px;
+    cursor: pointer;
+  }
+
+  .button_initial {
+    background-color: #70db70;
+    border: none;
+    color: white;
+    padding: 6px 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 3px;
+  }
+
+  .boxed {
+    width: 550px;
+    border: 2px solid green;
+    margin: 5px;
+    background: silver;
+  }
+
+  .authoring_box {
+    width: 420px;
+    height: 480px;
+    border: 1px solid black;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 20px;
+    position: absolute;
+    left: 770px;
+    top: 40px;
+  }
+
+  .segparams {
+    position: absolute;
+    left: 60px;
+    top: 530px;
+    visibility: auto;
+  }
+
+  #undo_button {
+    position: absolute;
+    left: 990px;
+    top: 530px;
+  }
+
+  #timeline {
+    border: 1px solid black;
+    position: absolute;
+    left: 60px;
+    top: 580px;
+    visibility: auto;
+  }
+
+  /*.column2 {
+  float: left;
+  width: 30%;
+  position: relative;
+  left: -100px;
+  top: 50px;
+}*/
+
+  .column3 {
+    float: left;
+    width: 30%;
+    position: absolute;
+    left: 1100px;
+    top: 100px;
+  }
+
+  /*.row:after {
+  content: "";
+  display: table;
+  clear: both;
+  padding:20px;
+}*/
+
+  #twod_table {
+    display: none;
+  }
+
+  #threed_table {
+    display: none;
+  }
+
+  #color_table {
+    display: none;
+  }
+
+  #annotation_table {
+    display: none;
+  }
+
+  #reference_codes {
+    display: none;
+  }
+
+  #authoring {
+    display: none;
+  }
+
+
+  hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    border-color: green;
+  }
+
+  /* Tooltip container */
+  .tooltip {
+    position: absolute;
+    left: 970px;
+    top: 8px;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    /* If you want dots under the hoverable text */
+  }
+
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 430px;
+    height: 330px;
+    background-color: black;
+    color: #fff;
+    text-align: left;
+    padding: 20px 10px;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    left: -200px;
+    z-index: 1;
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+</style>
+
+
+
+<head>
+  <title>AniCode - authoring interface</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src=./static/math.min.js> </script> <script src="./static/numeric.min.js"></script>
+</head>
+
+<body>
+  <div id="main">
+    <input type="hidden" id="qr_landmarks" value="{{ qr_landmarks }}">
+    <!-- <a href="#" style="position: absolute; left: 60px; top: 10px; text-decoration: none;" onclick="document.getElementById('backimage').click(); return false;">Choose Image</a>
+        <input type="file" multiple="true" id="backimage" accept="" onchange="uploadImage()" style="visibility: hidden;" />
+        <a href="ref.html" style="position: absolute; left: 150px; top: 0px; visibility: hidden">Reference Code</a> -->
+    <div class="tooltip">Hints
+      <span class="tooltiptext">1. Use sliders below the image to see different options for segments. Once satisfied,
+        click on "Save Parameters".<br><br>2. Click on the image to select objects you want to animate. Selected
+        segments are highlighted in red. Click again to unselect. You can select multiple segments.<br><br>3. After you
+        select at least one segment, you can click on one of the four buttons in the right panel to start creating an
+        animation. Hints for each animation type will appear.<br><br>4. Click on "Add Frame" when you are satisfied with
+        the current frame. You can "Undo Frame" if you change your mind. Thumbnails will be updated at the bottom of the
+        page.<br><br>5. Click "Finish". The animation you create will be displayed in video.</span>
+    </div>
+    <p>
+      <!-- tabindex="1" is important for rotating ROI on canvas!  -->
+      <div>
+        <canvas id="bgcanvas" width="640" height="480" tabindex="1"></canvas>
+        <img src="" alt="" id="img" />
+        <canvas id="top" width="640" height="480" tabindex="1" onmousemove="onMouseOver(this)"></canvas>
+      </div>
+    </p>
+
+    <div class="segparams">
+      <!-- region_size: 20 - 100; ratio: 0.025 - 0.075; num_iterations: 3 - 9 -->
+      &emsp;Size&emsp;<input type="range" min="1" max="5" value="1" class="slider" id="param1" onchange="update()"
+        style="width: 119px" disabled>
+      &emsp;&emsp;Regularity&emsp;<input type="range" min="1" max="3" value="1" class="slider" id="param2"
+        onchange="update()" style="width: 119px" disabled>&emsp;
+      <!-- &emsp;Iterations -->
+      <input type="range" min="1" max="3" value="2" class="slider" id="param4" onchange="update()" style="display: none"
+        disabled>
+      <input type="button_top" class="button_top" value="Save Parameters" id="setseg_button" readonly disabled>
+    </div>
+
+    <div class="authoring_box">
+      <!-- <div class = "label"><p>Position:</p></div> -->
+      <!-- <p id="pos"></p> -->
+      <!-- <div class = "label"><p>Segments selected:</p></div> -->
+      <!-- <p id="segment#"></p> -->
+      <!-- <div class = "label"><p>Frames added:</p></div> -->
+      <!-- <p id="frameCount"></p> -->
+      <br><br>
+      <table class="label" style="display: none;">
+        <tr style="height: auto">
+          <th style="width: 128px">
+            <p style="display: inline">Position</p>
+          </th>
+          <th style="width: 128px">
+            <p style="display: inline">#Segments</p>
+          </th>
+          <th style="width: 128px">
+            <p style="display: inline">#Frames</p>
+          </th>
+        </tr>
+        <tr>
+          <th style="width: 128px">
+            <p id="pos"></p>
+          </th>
+          <th style="width: 128px">
+            <p id="segment#"></p>
+          </th>
+          <th style="width: 128px">
+            <p id="frameCount"></p>
+          </th>
+        </tr>
+      </table>
+
+      &emsp;<input type="radio" name="interpolation" id="linear" checked style="display: none;">
+      <!-- Uniform-speed change&emsp; -->
+      <tr>
+        <th>Duration:&emsp;1s</th>
+        <th><input type="range" min="1" max="5" value="1" step="0.1" name="duration" id="duration"
+            oninput="duration_update()"></th>
+        <th>5s&emsp;<label id="duration_text">1 second </label></th>
+      </tr><br><br>
+      &emsp;<input type="radio" name="interpolation" id="quadratic">
+      Apply acceleration<p></p>
+
+      <input type="button_top" class="button_top" value="Move Object" id="2d_button" readonly>
+      <input type="button_top" class="button_top" value="Warp Object" id="3d_button" readonly>
+      <input type="button_top" class="button_top" value="Color" id="color_button" readonly>
+      <input type="button_top" class="button_top" value="Annotation" id="annotation_button" readonly>
+      <br><br><br><br><br>
+      <table id="twod_table">
+        <tr>
+          <th align="left">Drag the selected area to move, rotation: <lable id="rotateAngle">0</lable>°</th>
+        </tr>
+        <tr>
+          <th align="left">Press Q for counter-clockwise, E for clockwise</th>
+        </tr>
+      </table>
+      <table id="threed_table">
+        <tr>
+          <th align="left">Drag 4 green points to the corners, then press W</th>
+        </tr>
+        <tr>
+          <th align="left">Drag 4 purple points to warp</th>
+        </tr>
+      </table>
+      <table id="color_table">
+        <tr>
+          <th><img src="./static/spectrum.png" alt="spectrum" height="15" width="128"></th>
+          <th>Hue change</th>
+        </tr>
+        <tr>
+          <th><input type="range" min="0" max="359" value="0" class="slider" id="hue" oninput="hue_update()"></th>
+          <th id="hue_change"></th>
+        </tr>
+      </table>
+      <table id="annotation_table">
+        <tr>
+          <th align="left">Please type in annotation below:</th>
+        </tr>
+        <tr>
+          <th align="left"><input type="text" name="annotation" id="annotation"></th>
+        </tr>
+      </table>
+
+      <input type="button_bottom" class="button_bottom" value="Add Frame" id="addframe_button"
+        style="position: absolute; left: 20px; top: 420px;" readonly>
+      <input type="button_bottom" class="button_bottom" value="Finish" id="writeframes_button"
+        style="position: absolute; left: 220px; top: 420px;" readonly>
+
+    </div>
+
+    <canvas id="qrcanvas" width="450" height="450"></canvas>
+  </div>
+  <input type="button_top" class="button_top" value="Undo Frame" id="undo_button" readonly>
+  <canvas id="timeline" width="1150" height="120"></canvas>
+  </div>
+
+
+  <script src="./static/jquery.min.js"></script>
+  <script src="./static/main.js"></script>
+  <script src="./static/shape.js"></script>
+  <!-- https://github.com/evanplaice/jquery-csv -->
+  <script type="text/javascript" src="./static/jquery.csv.min.js"></script>
+
+  <!-- https://github.com/eligrey/FileSaver.js -->
+  <script type="text/javascript" src="./static/FileSaver.min.js"></script>
+
+  <!-- https://github.com/LazarSoft/jsqrcode -->
+  <script type="text/javascript" src="./static/grid.js"></script>
+  <script type="text/javascript" src="./static/version.js"></script>
+  <script type="text/javascript" src="./static/detector.js"></script>
+  <script type="text/javascript" src="./static/formatinf.js"></script>
+  <script type="text/javascript" src="./static/errorlevel.js"></script>
+  <script type="text/javascript" src="./static/bitmat.js"></script>
+  <script type="text/javascript" src="./static/datablock.js"></script>
+  <script type="text/javascript" src="./static/bmparser.js"></script>
+  <script type="text/javascript" src="./static/datamask.js"></script>
+  <script type="text/javascript" src="./static/rsdecoder.js"></script>
+  <script type="text/javascript" src="./static/gf256poly.js"></script>
+  <script type="text/javascript" src="./static/gf256.js"></script>
+  <script type="text/javascript" src="./static/decoder.js"></script>
+  <script type="text/javascript" src="./static/qrcode.js"></script>
+  <script type="text/javascript" src="./static/findpat.js"></script>
+  <script type="text/javascript" src="./static/alignpat.js"></script>
+  <script type="text/javascript" src="./static/databr.js"></script>
+
+  <!-- https://github.com/nayuki/QR-Code-generator -->
+  <script type="text/javascript" src="./static/qrcodegen.js"></script>
+
+  <!-- https://github.com/bgrins/TinyColor -->
+  <script type="text/javascript" src="./static/tinycolor.js"></script>
+  <script type="text/javascript" src="./static/perspective-transform.js"></script>
+
+</body>
+
+</html>

@@ -1,11 +1,11 @@
 # AniCode: Authoring Coded Artifacts for Network-Free Personalized Animations
 
-by Zeyu Wang, Shiyu Qiu, Qingyang Chen, Natallia Trayan, Alexander Ringlein, Julie Dorsey, and Holly Rushmeier
+Zeyu Wang*, Shiyu Qiu*, Qingyang Chen, Natallia Trayan, Alexander Ringlein, Julie Dorsey, and Holly Rushmeier
 
-Published on the Visual Computer, to be presented at Computer Graphics International 2019.
+Published in the Visual Computer and to be presented at Computer Graphics International 2019.
 
 ![teaser](teaser.jpg)
 
-## Source code will be released in this repository
+This repository contains source code of the authoring interface and client application of the AniCode framework.
 
-## A live demo is available at http://tracer.cs.yale.edu/AniCode
+A live demo is available at http://tracer.cs.yale.edu/AniCode.
