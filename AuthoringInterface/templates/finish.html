@@ -30,7 +30,7 @@
 				download="AniCode_video.avi">preview of your authored animation</a>. Use our <a
 				href="static/client_application.apk">mobile application</a> (Android) for a network-free personalized visual
 			communication with others.</p>
-		<canvas id="qr_canvas" width="400" height="400"
+		<canvas id="qr_canvas" width="450" height="450"
 			style="display: block; margin: auto; border: 1px solid black;"></canvas>
 		<p onclick="document.getElementById('advanced').style.display = 'block'"
 			style="color: #888888; text-decoration: underline; cursor: pointer">Advanced</p>
@@ -45,7 +45,7 @@
 	</article>
 	<script type="text/javascript" src="./static/qrcodegen.js"></script>
 	<script type="text/javascript">
-		let version = 13; // this.value
+		let version = 13;
 		let text = document.getElementById("authored_qr").value;
 		let segs = qrcodegen.QrSegment.makeSegments(text);
 		let qrcode = qrcodegen.QrCode.encodeSegments(segs, qrcodegen.QrCode.Ecc.LOW, version, version);
