@@ -4,7 +4,7 @@ Zeyu Wang*, Shiyu Qiu*, Qingyang Chen, Natallia Trayan, Alexander Ringlein, Juli
 
 Yale University
 
-Published in the Visual Computer and presented at Computer Graphics International 2019 [[pdf]](https://www.researchgate.net/publication/332972892_AniCode_Authoring_Coded_Artifacts_for_Network-Free_Personalized_Animations)
+Published in the Visual Computer and presented at Computer Graphics International 2019 [[pdf]](https://graphics.cs.yale.edu/sites/default/files/wang2019_article_anicodeauthoringcodedartifacts.pdf)
 
 ![teaser](teaser.jpg)
 
